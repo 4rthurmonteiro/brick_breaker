@@ -21,11 +21,12 @@ class BrickBreaker extends FlameGame
           ),
         );
 
+  final ValueNotifier<int> score = ValueNotifier(0);
   final rand = math.Random();
   double get width => size.x;
   double get height => size.y;
 
-  late PlayState _playState; // Add from here...
+  late PlayState _playState;
   PlayState get playState => _playState;
   set playState(PlayState playState) {
     _playState = playState;
@@ -39,7 +40,7 @@ class BrickBreaker extends FlameGame
         overlays.remove(PlayState.gameOver.name);
         overlays.remove(PlayState.won.name);
     }
-  } // To here.
+  }
 
   @override
   FutureOr<void> onLoad() async {
@@ -58,7 +59,8 @@ class BrickBreaker extends FlameGame
     world.removeAll(world.children.query<Bat>());
     world.removeAll(world.children.query<Brick>());
 
-    playState = PlayState.playing; // To here.
+    playState = PlayState.playing;
+    score.value = 0;
 
     world.add(Ball(
         difficultyModifier: difficultyModifier,
@@ -87,13 +89,13 @@ class BrickBreaker extends FlameGame
     ]);
   }
 
-  @override // Add from here...
+  @override
   void onTap() {
     super.onTap();
     startGame();
-  } // To here.
+  }
 
-  @override // Add from here...
+  @override
   KeyEventResult onKeyEvent(
       KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     super.onKeyEvent(event, keysPressed);
@@ -102,7 +104,7 @@ class BrickBreaker extends FlameGame
         world.children.query<Bat>().first.moveBy(-batStep);
       case LogicalKeyboardKey.arrowRight:
         world.children.query<Bat>().first.moveBy(batStep);
-      case LogicalKeyboardKey.space: // Add from here...
+      case LogicalKeyboardKey.space:
       case LogicalKeyboardKey.enter:
         startGame();
     }
@@ -110,5 +112,5 @@ class BrickBreaker extends FlameGame
   }
 
   @override
-  Color backgroundColor() => const Color(0xfff2e8cf); // Add this override
+  Color backgroundColor() => const Color(0xfff2e8cf);
 }
